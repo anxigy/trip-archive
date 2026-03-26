@@ -1,11 +1,6 @@
+import { Trip } from "@/types/trip";
 import Link from "next/link";
 
-type Trip = {
-  id: string;
-  title: string;
-  country: string;
-  date: string;
-};
 
 type TripCardProps = {
   trip: Trip;
@@ -29,7 +24,7 @@ export default function TripCard({ trip }: TripCardProps) {
         <div className="flex flex-col">
             <h3 className="text-2xl black-han-sans">{trip.title}</h3>
             <p className="mt-2 text-sm text-gray-600">{trip.country}</p>
-            <p className="mt-1 text-sm text-gray-500">{trip.date}</p>
+            <p className="mt-1 text-sm text-gray-500">{trip.startDate} ~ {trip.endDate}</p>
         </div>
       </article>
     </Link>
