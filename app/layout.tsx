@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko"  className={`${blackHanSans.variable}`}>
+    <html lang="ko" className={`${blackHanSans.variable}`}>
       <body className="min-h-dvh flex flex-col">
         <Header />
         <main className="flex-1">
