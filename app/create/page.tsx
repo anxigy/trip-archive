@@ -42,7 +42,14 @@ export default function CreatePage() {
   };
 
   return (
-    <main className="p-5">
+    <main className="
+        w-[25%]
+        min-w-[400px]
+        flex
+        flex-col
+        mx-auto
+        p-5
+      ">
       <h1 className="mb-6 text-2xl font-bold">여행 작성</h1>
 
       <ul className="space-y-4">
@@ -133,7 +140,7 @@ export default function CreatePage() {
       <button
         type="button"
         onClick={handleSubmit}
-        className="mt-6 rounded bg-black px-4 py-2 text-white"
+        className="mt-6 rounded bg-amber-500 px-4 py-2 text-white"
       >
         submit
       </button>
