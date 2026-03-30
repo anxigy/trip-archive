@@ -2,6 +2,7 @@
 
 import { Trip } from "@/types/trip";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CreatePage() {
   const [state, setState] = useState<Partial<Trip>>({
@@ -38,7 +39,16 @@ export default function CreatePage() {
       return;
     }
 
-    console.log(state);
+    const id:string= uuidv4();
+    const createdAt:string = new Date().toISOString();
+
+    const data = {
+      ...state,
+      id: id,
+      createdAt: createdAt
+    }
+
+    window.localStorage.setItem("trips", data.toString())
   };
 
   return (
