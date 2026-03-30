@@ -1,11 +1,16 @@
 "use client";
 
 import { Trip } from "@/types/trip";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+type TripFormInput = Omit<Trip, "id" | "createdAt">;
+
 export default function CreatePage() {
-  const [state, setState] = useState<Partial<Trip>>({
+   let router = useRouter()
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [state, setState] = useState<TripFormInput>({
     title: "",
     country: "",
     startDate: "",
@@ -14,6 +19,10 @@ export default function CreatePage() {
     summary: "",
     memo: "",
   });
+   useEffect(() => {
+      const storage = window.localStorage.getItem("trips")
+      if(storage !== null) setTrips(JSON.parse(storage))
+    }, [])
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
@@ -39,16 +48,17 @@ export default function CreatePage() {
       return;
     }
 
-    const id:string= uuidv4();
-    const createdAt:string = new Date().toISOString();
-
-    const data = {
+    const data: Trip = {
       ...state,
-      id: id,
-      createdAt: createdAt
-    }
+      id: uuidv4(),
+      createdAt: new Date().toISOString()
+    };
 
-    window.localStorage.setItem("trips", data.toString())
+   const nextTrips = Array.isArray(trips) ? [...trips, data] : [data];
+
+    window.localStorage.setItem("trips",JSON.stringify(nextTrips))
+    alert('추가 완료!')
+    router.push(`/trips`)
   };
 
   return (
