@@ -7,6 +7,12 @@ export default function TripsPage() {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [isMount, setIsMount] = useState(false);
 
+  const handleDelete = (id:string) => {
+    const data = trips.filter((f) => f.id!==id)
+    setTrips(data)
+    window.localStorage.setItem("trips",JSON.stringify(data))
+  }
+
   useEffect(() => {
     setIsMount(true); 
     const storage = window.localStorage.getItem("trips");
@@ -31,7 +37,7 @@ export default function TripsPage() {
         {
           trips.length > 0 ? (
             trips?.map((trip) => (
-              <TripCard key={trip.id} trip={trip} />
+              <TripCard key={trip.id} trip={trip} onDelete={handleDelete}/>
             ))
           ) : (
             <div>
