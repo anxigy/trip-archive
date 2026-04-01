@@ -8,8 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 type TripFormInput = Omit<Trip, "id" | "createdAt">;
 
 export default function CreatePage() {
-   let router = useRouter()
+  const router = useRouter()
   const [trips, setTrips] = useState<Trip[]>([]);
+  const [isMount, setIsMount] = useState(false);
   const [state, setState] = useState<TripFormInput>({
     title: "",
     country: "",
@@ -19,10 +20,27 @@ export default function CreatePage() {
     summary: "",
     memo: "",
   });
-   useEffect(() => {
-      const storage = window.localStorage.getItem("trips")
-      if(storage !== null) setTrips(JSON.parse(storage))
-    }, [])
+  //  useEffect(() => {
+  //     const storage = window.localStorage.getItem("trips")
+  //     if(storage !== null) setTrips(JSON.parse(storage))
+  //   }, [])
+
+    useEffect(() => {
+      const frame = requestAnimationFrame(() => {
+        setIsMount(true); 
+        const storage = window.localStorage.getItem("trips");
+        if (storage) {
+          try {
+            const parsedData = JSON.parse(storage);
+            setTrips(parsedData); 
+          } catch (e) {
+            console.error("Parsing error", e);
+          }
+        }
+      });
+  
+      return () => cancelAnimationFrame(frame);
+    }, []);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;

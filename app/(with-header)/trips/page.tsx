@@ -14,15 +14,20 @@ export default function TripsPage() {
   }
 
   useEffect(() => {
-    setIsMount(true); 
-    const storage = window.localStorage.getItem("trips");
-    if (storage) {
-      try {
-        setTrips(JSON.parse(storage));
-      } catch (e) {
-        console.error("Parsing error", e);
+    const frame = requestAnimationFrame(() => {
+      setIsMount(true); 
+      const storage = window.localStorage.getItem("trips");
+      if (storage) {
+        try {
+          const parsedData = JSON.parse(storage);
+          setTrips(parsedData); 
+        } catch (e) {
+          console.error("Parsing error", e);
+        }
       }
-    }
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   if (!isMount) {

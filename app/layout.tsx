@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${blackHanSans.variable}`}>
       <body className="min-h-dvh flex flex-col">
-        <Header />
+        {/* <Header /> */}
         <main className="flex-1">
           {children}
         </main>
