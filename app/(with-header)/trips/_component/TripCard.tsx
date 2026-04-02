@@ -88,7 +88,7 @@ export default function TripCard({ trip, onDelete }: TripCardProps) {
           >
             {trip.title}
           </h3>
-          <div className="mt-auto pt-5 flex items-end justify-between border-t border-[#ebebeb]">
+          <div className="mt-auto pt-5 flex items-end justify-between">
             <span
               className={`
                 

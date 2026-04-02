@@ -1,13 +1,15 @@
 "use client";
-import TripCard from "./component/TripCard";
+import TripCard from "./_component/TripCard";
 import { useEffect, useState } from "react";
 import { Trip } from "@/types/trip";
 import HeroBanner from "@/components/layout/HeroBanner";
+import { useRouter } from "next/navigation";
+import { PlusIcon } from "lucide-react";
 
 export default function TripsPage() {
+  const router = useRouter();
   const [trips, setTrips] = useState<Trip[]>([]);
   const [isMount, setIsMount] = useState(false);
-
   const handleDelete = (id: string) => {
     const data = trips.filter((f) => f.id !== id);
     setTrips(data);
@@ -56,18 +58,12 @@ export default function TripsPage() {
             bg-[#f0913a] hover:bg-[#e07828] active:scale-[0.98]
             text-white font-sans font-bold text-sm md:text-base
             px-3 md:px-3 py-3 md:py-2
-            transition-all duration-200
+            transition-all duration-200 cursor-pointer
           "
+            onClick={() => router.push("/create")}
           >
             새 여행 추가
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 2v12M2 8h12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            <PlusIcon width={16} />
           </button>
         </div>
 
@@ -80,14 +76,7 @@ export default function TripsPage() {
         {trips.length === 0 && (
           <div className="flex flex-col items-center justify-center py-32 text-center">
             <div className="w-16 h-16 rounded-full border-2 border-dashed border-[#ccc] flex items-center justify-center mb-6">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 5v14M5 12h14"
-                  stroke="#ccc"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <PlusIcon color="#ccc" width={24} />
             </div>
             <p className="font-sans text-[#aaa] text-base">
               아직 기록된 여행이 없습니다

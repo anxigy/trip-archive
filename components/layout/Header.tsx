@@ -1,11 +1,12 @@
 "use client";
 
+import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
-  { label: "ARCHIVE", href: "/archive" },
   { label: "TRIPS", href: "/trips" },
+  { label: "CREATE", href: "/create" },
   { label: "SETTINGS", href: "/settings" },
 ];
 
@@ -50,15 +51,7 @@ export default function Header() {
         })}
 
         <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-white/20 bg-[#2a5550] flex items-center justify-center flex-shrink-0 ml-2">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle cx="9" cy="7" r="3.5" fill="rgba(255,255,255,0.5)" />
-            <path
-              d="M2 16c0-3.866 3.134-7 7-7s7 3.134 7 7"
-              stroke="rgba(255,255,255,0.5)"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          <UserIcon color="#ccc" />
         </div>
       </nav>
 
