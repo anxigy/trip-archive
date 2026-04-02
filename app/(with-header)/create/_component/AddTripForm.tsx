@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SectionHeader from "./SectionHeader";
 import ImageUploader from "./ImageUploader";
 import { Trip, TripFormInput } from "@/types/trip";
@@ -9,7 +9,7 @@ import { ArrowRightIcon, EarthIcon, SquarePenIcon } from "lucide-react";
 type TripFormProps = {
   initialValues?: Partial<Trip>;
   onSubmit: (values: TripFormInput) => void;
-  submitLabel: string;
+  mode: "create" | "edit";
 };
 
 const defaultValues: TripFormInput = {
@@ -27,7 +27,7 @@ const SUMMARY_MAX = 50;
 export default function AddTripForm({
   initialValues,
   onSubmit,
-  submitLabel,
+  mode,
 }: TripFormProps) {
   const [form, setForm] = useState<TripFormInput>(() => ({
     ...defaultValues,
@@ -79,6 +79,15 @@ export default function AddTripForm({
     onSubmit(form);
   };
 
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (mode === "edit" && initialValues) {
+        setForm(initialValues as TripFormInput);
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [initialValues, mode]);
   return (
     <div className="relative">
       <div className="relative z-10 max-w-250 mx-auto px-6 md:px-16 py-14 md:py-20 space-y-20  pb-40">
@@ -302,7 +311,7 @@ export default function AddTripForm({
             </>
           ) : (
             <>
-              {submitLabel}
+              {mode == "create" ? "새 여행 추가하기" : "수정하기"}
               <ArrowRightIcon width={18} className="shrink-0" strokeWidth={2} />
             </>
           )}

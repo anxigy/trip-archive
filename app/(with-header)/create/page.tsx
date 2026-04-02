@@ -59,7 +59,7 @@ export default function CreatePage() {
         title="여행 추가"
         description="새로운 목적지와 당신의 순간을 기록하세요."
       />
-      <AddTripForm onSubmit={handleSubmit} submitLabel="새 여행 추가하기" />
+      <AddTripForm onSubmit={handleSubmit} mode="create" />
     </div>
   );
 }

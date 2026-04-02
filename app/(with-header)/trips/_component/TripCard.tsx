@@ -1,8 +1,9 @@
 "use client";
 import { Trip } from "@/types/trip";
-import { ArrowRight, Trash2 } from "lucide-react";
+import { ArrowRight, Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type TripCardProps = {
@@ -11,6 +12,7 @@ type TripCardProps = {
 };
 
 export default function TripCard({ trip, onDelete }: TripCardProps) {
+  const router = useRouter();
   const [hovered, setHovered] = useState(false);
   const handleDelete = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -18,6 +20,12 @@ export default function TripCard({ trip, onDelete }: TripCardProps) {
     if (confirm("정말 이 여행 계획을 삭제할까요?")) {
       onDelete?.(trip.id);
     }
+  };
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/edit/${trip.id}`);
   };
 
   return (
@@ -43,6 +51,21 @@ export default function TripCard({ trip, onDelete }: TripCardProps) {
         >
           <Trash2 size={18} strokeWidth={2.5} />
         </button>
+
+        <button
+          onClick={handleEdit}
+          className="
+              absolute top-4 right-17 z-30
+              p-2.5 bg-white/70 backdrop-blur-md
+              text-slate-500 hover:text-[#1eb8a0] hover:bg-white
+              rounded-full shadow-sm border border-white/50
+              transition-all duration-200
+              active:scale-90
+            "
+        >
+          <Pencil size={18} strokeWidth={2.5} />
+        </button>
+
         <div
           className="relative overflow-hidden"
           style={{
