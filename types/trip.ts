@@ -10,3 +10,5 @@ export type Trip = {
     memo?: string;
     createdAt: string;
   };
+
+  export type TripFormInput = Omit<Trip, "id" | "createdAt">;
