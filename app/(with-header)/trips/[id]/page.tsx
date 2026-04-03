@@ -1,11 +1,11 @@
 "use client";
 import BasicBanner from "@/components/layout/BasicBanner";
-import { Pin, Trip } from "@/types/trip";
 import { Calendar1Icon, EarthIcon, PinIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import SectionHeader from "../../create/_component/SectionHeader";
 import PinCard from "../_component/PinCard";
+import { useTripStore } from "@/store/tripStore";
 
 export default function TripDetailPage({
   params,
@@ -14,26 +14,8 @@ export default function TripDetailPage({
 }) {
   const { id } = use(params);
 
-  const [trip, setTrip] = useState<Trip | null>(null);
-
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      const storage = window.localStorage.getItem("trips");
-      if (storage) {
-        try {
-          const parsedData: Trip[] = JSON.parse(storage);
-          const foundTrip = parsedData.find((f) => String(f.id) === id);
-          if (foundTrip) {
-            setTrip(foundTrip);
-          }
-        } catch (e) {
-          console.error("Parsing error", e);
-        }
-      }
-    });
-
-    return () => cancelAnimationFrame(frame);
-  }, [id]);
+  const trips = useTripStore((state) => state.trips);
+  const trip = trips.find((t) => String(t.id) === id);
 
   return (
     <div className="min-h-screen bg-[#f5f5f3]">

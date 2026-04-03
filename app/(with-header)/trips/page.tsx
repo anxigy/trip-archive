@@ -1,41 +1,18 @@
 "use client";
 import TripCard from "./_component/TripCard";
-import { useEffect, useState } from "react";
-import { Trip } from "@/types/trip";
 import HeroBanner from "@/components/layout/HeroBanner";
 import { useRouter } from "next/navigation";
 import { PlusIcon } from "lucide-react";
+import { useTripStore } from "@/store/tripStore";
 
 export default function TripsPage() {
   const router = useRouter();
-  const [trips, setTrips] = useState<Trip[]>([]);
-  const [isMount, setIsMount] = useState(false);
+  const trips = useTripStore((state) => state.trips);
+  const deleteTrip = useTripStore((state) => state.deleteTrip);
+
   const handleDelete = (id: string) => {
-    const data = trips.filter((f) => f.id !== id);
-    setTrips(data);
-    window.localStorage.setItem("trips", JSON.stringify(data));
+    deleteTrip(id);
   };
-
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setIsMount(true);
-      const storage = window.localStorage.getItem("trips");
-      if (storage) {
-        try {
-          const parsedData = JSON.parse(storage);
-          setTrips(parsedData);
-        } catch (e) {
-          console.error("Parsing error", e);
-        }
-      }
-    });
-
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
-  if (!isMount) {
-    return null; // 또는 <div className="p-5">로딩 중...</div>
-  }
 
   return (
     <div className="min-h-screen bg-[#f5f5f3]">

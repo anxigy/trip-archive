@@ -1,33 +1,14 @@
 "use client";
-
 import BasicBanner from "@/components/layout/BasicBanner";
 import { Trip, TripFormInput } from "@/types/trip";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import AddTripForm from "./_component/AddTripForm";
+import { useTripStore } from "@/store/tripStore";
 
 export default function CreatePage() {
   const router = useRouter();
-  const [trips, setTrips] = useState<Trip[]>([]);
-  const [isMount, setIsMount] = useState(false);
-
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setIsMount(true);
-      const storage = window.localStorage.getItem("trips");
-      if (storage) {
-        try {
-          const parsedData = JSON.parse(storage);
-          setTrips(parsedData);
-        } catch (e) {
-          console.error("Parsing error", e);
-        }
-      }
-    });
-
-    return () => cancelAnimationFrame(frame);
-  }, []);
+  const addTrip = useTripStore((state) => state.addTrip);
 
   const handleSubmit = (addData: TripFormInput) => {
     if (
@@ -46,9 +27,7 @@ export default function CreatePage() {
       createdAt: new Date().toISOString(),
     };
 
-    const nextTrips = Array.isArray(trips) ? [...trips, data] : [data];
-
-    window.localStorage.setItem("trips", JSON.stringify(nextTrips));
+    addTrip(data);
     alert("추가 완료!");
     router.push(`/trips`);
   };
